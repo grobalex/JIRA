@@ -1,5 +1,19 @@
 # Jira-Scripts
 
+Requires Python 3.X. Currently missing a requirements.txt. 
+
+######Requires:
+
+* requests
+* pprint
+* getpass
+* json
+* re
+* sys
+* openpyxl
+
+
+
 Main Script: 
 -------------------
 jira.py 
