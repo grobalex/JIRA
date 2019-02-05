@@ -7,6 +7,11 @@ import sys
 from openpyxl import load_workbook
 
 '''
+List of TA's:
+'''
+user_ids = []
+
+'''
 Username and password for Jira user.
 CONSTRAINT: Needs to be an Admin user.
 '''
@@ -332,17 +337,25 @@ Return:
 '''
 
 
-def fileHandler(PATH):
+def fileHandler(PATH, FLAG):
+    global user_ids
     try:
         wb2 = load_workbook(PATH)
     except:
         raise ValueError('No .xlsx file given')
     if wb2.sheetnames[0] == 'groups' and wb2.sheetnames[1] == 'persons':
-        for project in iterateOverRows(wb2[wb2.sheetnames[0]]):
-            user_list = getUser(iterateOverRows(
-                wb2[wb2.sheetnames[1]]), project[1])
-            createCompleteProject(project[0], project[1], project[2], project[
-                                  3], project[4], user_list[0], user_list, None)
+        if FLAG:
+            for project in iterateOverRows(wb2[wb2.sheetnames[0]]):
+                user_list = getUser(iterateOverRows(
+                    wb2[wb2.sheetnames[1]]), project[1])
+                createCompleteProject(project[0], project[1], project[2], project[
+                    3], project[4], user_list[0], user_list, None)
+        else:
+            for project in iterateOverRows(wb2[wb2.sheetnames[0]]):
+                print(project[0] + "-group")
+                addUsersToGroup(user_ids, baseapiurl +
+                                'group/user?groupname=' + project[0] + "-group")
+
 
 '''
 Main method
@@ -350,6 +363,7 @@ Main method
 
 
 def main():
+    global user_ids
     if len(sys.argv) > 1:
         if sys.argv[1] == '--input':
             getLoginCreds()
@@ -357,7 +371,7 @@ def main():
         elif sys.argv[1] == '--file':
             if len(sys.argv) == 3:
                 getLoginCreds()
-                fileHandler(sys.argv[2])
+                fileHandler(sys.argv[2], True)
             else:
                 print('Missing the path to the file')
         elif sys.argv[1] == '--add':
@@ -368,6 +382,15 @@ def main():
             else:
                 print('Incorrect format')
                 print("--add' followed by 'group-name' and 'CCIS-ID' adds user to group")
+        elif sys.argv[1] == '--addall':
+            if len(sys.argv) == 3:
+                getLoginCreds()
+                user_ids = input(
+                    "Comma Seperated List of TA's CCIS-IDS: ").split(',')
+                fileHandler(sys.argv[2], False)
+            else:
+                print('Incorrect format')
+                print("--addall' Adds users with 'CCIS-ID' to all groups in excel file")
     else:
         helptext = '''
 ##################### How to use this JIRA CLI ####################
@@ -377,6 +400,7 @@ Use option:
 '--input' to manual input values to create a new project
 '--file' followed by 'path_to_file' to create projects based on .xlsx
 '--add' followed by 'group-name' and comma seperated list of 'CCIS-ID' to add user(s) to a JIRA group
+'--addall' Adds single or mulitple users with 'CCIS-ID' to all groups in excel file
 '''
         print(helptext)
         exit()
