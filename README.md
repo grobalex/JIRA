@@ -2,25 +2,13 @@
 
 [![Python 3.6](https://img.shields.io/badge/python-3.6-blue.svg)](https://www.python.org/downloads/release/python-360/)
 
-Currently missing a requirements.txt. 
-
-###### Requires:
-
-* requests
-* pprint
-* getpass
-* json
-* re
-* sys
-* openpyxl
-
-
-
 Main Script: 
 -------------------
 
 ###### Run:
-python jira.py 
+1. Create a venv https://docs.python.org/3/tutorial/venv.html
+2. pip install requirements.txt
+3. python jira.py 
 
 ###### Contraints:
  1. You must have a CCIS-ID and password 
