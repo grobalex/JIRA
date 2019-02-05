@@ -18,7 +18,6 @@ Currently missing a requirements.txt.
 
 Main Script: 
 -------------------
-jira.py 
 
 ###### Run:
 python jira.py 
