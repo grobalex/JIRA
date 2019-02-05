@@ -1,5 +1,7 @@
 # Jira-Scripts
 
+[![PyPI pyversions](https://img.shields.io/pypi/pyversions/ansicolortags.svg)](https://pypi.python.org/pypi/ansicolortags/)
+
 Requires Python 3.X. Currently missing a requirements.txt. 
 
 ###### Requires:
