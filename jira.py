@@ -348,6 +348,7 @@ def fileHandler(PATH, FLAG):
             for project in iterateOverRows(wb2[wb2.sheetnames[0]]):
                 user_list = getUser(iterateOverRows(
                     wb2[wb2.sheetnames[1]]), project[1])
+
                 createCompleteProject(project[0], project[1], project[2], project[
                     3], project[4], user_list[0], user_list, None)
         else:
